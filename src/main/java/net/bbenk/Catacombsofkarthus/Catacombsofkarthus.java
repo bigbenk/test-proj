@@ -1,6 +1,8 @@
 package net.bbenk.Catacombsofkarthus;
 
 import com.mojang.logging.LogUtils;
+import net.bbenk.Catacombsofkarthus.item.Moditems;
+import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
@@ -13,21 +15,22 @@ import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.registries.RegistryObject;
 import org.slf4j.Logger;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(Catacombsofkarthus.MODID)
 public class Catacombsofkarthus
 {
-    // Define mod id in a common place for everything to reference
     public static final String MODID = "catacombsofkarthus";
-    // Directly reference a slf4j logger
     private static final Logger LOGGER = LogUtils.getLogger();
-
-    public Catacombsofkarthus()
-    {
+    public Catacombsofkarthus() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+
+        Moditems.register(modEventBus);
+
         modEventBus.addListener(this::commonSetup);
+
         MinecraftForge.EVENT_BUS.register(this);
         modEventBus.addListener(this::addCreative);
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.SPEC);
@@ -38,10 +41,13 @@ public class Catacombsofkarthus
 
     }
 
-    // Add the example block item to the building blocks tab
+    // CREATIVE MODE TAB
     private void addCreative(BuildCreativeModeTabContentsEvent event)
     {
-
+        if(event.getTabKey() == CreativeModeTabs.INGREDIENTS) {
+            event.accept(Moditems.TRACEOFDEATH);
+            event.accept(Moditems.HUNTRESSBOW);
+        }
     }
 
     // You can use SubscribeEvent and let the Event Bus discover methods to call

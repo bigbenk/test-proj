@@ -1,6 +1,7 @@
 package net.bbenk.Catacombsofkarthus;
 
 import com.mojang.logging.LogUtils;
+import net.bbenk.Catacombsofkarthus.item.ModItemProperties;
 import net.bbenk.Catacombsofkarthus.item.Moditems;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraftforge.api.distmarker.Dist;
@@ -64,7 +65,10 @@ public class Catacombsofkarthus
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event)
         {
+            event.enqueueWork(() -> {
+                ModItemProperties.addCustomItemProperties();
 
+            });
         }
     }
 }

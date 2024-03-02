@@ -8,6 +8,8 @@ import net.minecraft.world.item.Items;
 
 public class ModItemProperties {
     public static void addCustomItemProperties() {
+        ItemProperties.register(Moditems.DATA_TABLET.get(), new ResourceLocation(Catacombsofkarthus.MODID, "on"),
+                (pStack, pLevel, pEntity, pSeed) -> pStack.hasTag() ? 1f : 0f);
         makeBow(Moditems.HUNTRESSBOW.get());
     }
 
